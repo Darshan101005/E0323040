@@ -32,17 +32,17 @@ async function getValidToken() {
         envContent = fs.readFileSync(envPath, 'utf8');
     }
 
-    const envLines = envContent.split('\n').filter(line => 
-        !line.startsWith('ACCESS_TOKEN=') && 
-        !line.startsWith('TOKEN_EXPIRY=') && 
+    const envLines = envContent.split('\n').filter(line =>
+        !line.startsWith('ACCESS_TOKEN=') &&
+        !line.startsWith('TOKEN_EXPIRY=') &&
         line.trim() !== ''
     );
-    
+
     envLines.push(`ACCESS_TOKEN=${access_token}`);
     envLines.push(`TOKEN_EXPIRY=${expires_in}`);
 
     fs.writeFileSync(envPath, envLines.join('\n') + '\n');
-    
+
     process.env.ACCESS_TOKEN = access_token;
     process.env.TOKEN_EXPIRY = expires_in;
 
@@ -50,27 +50,23 @@ async function getValidToken() {
 }
 
 async function Log(stack, level, pkg, message) {
-    try {
-        const token = await getValidToken();
-        const response = await axios.post(
-            'http://4.224.186.213/evaluation-service/logs',
-            {
-                stack: stack.toLowerCase(),
-                level: level.toLowerCase(),
-                package: pkg.toLowerCase(),
-                message: message
-            },
-            {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
+    const token = await getValidToken();
+    const response = await axios.post(
+        'http://4.224.186.213/evaluation-service/logs',
+        {
+            stack: stack.toLowerCase(),
+            level: level.toLowerCase(),
+            package: pkg.toLowerCase(),
+            message: message
+        },
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             }
-        );
-        return response.data;
-    } catch (error) {
-        throw error;
-    }
+        }
+    );
+    return response.data;
 }
 
 module.exports = Log;

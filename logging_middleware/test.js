@@ -2,10 +2,10 @@ const Log = require('./index');
 
 async function runTest() {
     try {
-        const result = await Log("backend", "info", "config", "Testing dynamic token generation.");
-        console.log(result);
+        const result = await Log("backend", "info", "config", "Testing logging middleware");
+        process.stdout.write(JSON.stringify(result, null, 2) + '\n');
     } catch (error) {
-        console.error(error.response?.data || error.message);
+        process.stderr.write((error.response?.data || error.message) + '\n');
     }
 }
 

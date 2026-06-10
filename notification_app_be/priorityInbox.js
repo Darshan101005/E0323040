@@ -29,43 +29,37 @@ app.get('/api/priority-inbox', async (req, res) => {
         });
 
         const notifications = response.data.notifications;
-        await Log("backend", "info", "service", "Notifications fetched");
+        await Log("backend", "info", "service", "Notifications fetched from API");
 
         notifications.sort((a, b) => {
             const weightA = PRIORITY_WEIGHTS[a.Type] || 0;
             const weightB = PRIORITY_WEIGHTS[b.Type] || 0;
 
             if (weightA !== weightB) {
-                return weightB - weightA; 
+                return weightB - weightA;
             }
 
             const timeA = new Date(a.Timestamp).getTime();
             const timeB = new Date(b.Timestamp).getTime();
-            return timeB - timeA; 
+            return timeB - timeA;
         });
 
         const priorityInbox = notifications.slice(0, MAX_INBOX_SIZE);
-        
-        await Log("backend", "info", "service", "Notifications sorted");
+
+        await Log("backend", "info", "service", "Priority inbox computed");
 
         return res.status(200).json({
             success: true,
             count: priorityInbox.length,
             data: priorityInbox
         });
-
     } catch (error) {
-        console.error("\n--- DEBUG ERROR ---");
-        console.error(error.response?.data || error.message);
-        console.error("-------------------\n");
-        
-        await Log("backend", "error", "handler", "Error processing inbox");
+        await Log("backend", "error", "handler", "Priority inbox processing failed");
         return res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
 const PORT = 5000;
 app.listen(PORT, async () => {
-    console.log(`Server running on port ${PORT}`);
-    await Log("backend", "info", "config", `Server started on ${PORT}`);
+    await Log("backend", "info", "config", `Server started on port ${PORT}`);
 });

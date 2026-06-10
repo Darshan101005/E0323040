@@ -21,17 +21,13 @@ export async function getBrowserToken() {
         return storedToken;
     }
 
-    try {
-        const response = await axios.post(AUTH_API, CREDENTIALS);
-        const { access_token, expires_in } = response.data;
-        
-        localStorage.setItem('ACCESS_TOKEN', access_token);
-        localStorage.setItem('TOKEN_EXPIRY', expires_in);
-        
-        return access_token;
-    } catch (error) {
-        throw error;
-    }
+    const response = await axios.post(AUTH_API, CREDENTIALS);
+    const { access_token, expires_in } = response.data;
+
+    localStorage.setItem('ACCESS_TOKEN', access_token);
+    localStorage.setItem('TOKEN_EXPIRY', expires_in);
+
+    return access_token;
 }
 
 export async function Log(level, pkg, message) {
@@ -52,7 +48,5 @@ export async function Log(level, pkg, message) {
                 }
             }
         );
-    } catch (error) {
-        console.error(error);
-    }
+    } catch (_) {}
 }
