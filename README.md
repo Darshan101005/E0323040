@@ -2,6 +2,8 @@
 
 A full-stack notification system where students receive real-time updates regarding Placements, Events, and Results.
 
+[▶️ Open Video Demonstration](https://drive.google.com/file/d/1A0iACPiVNi4BSdV-hYUKF1JBXTx1_-lv/view?usp=sharing)
+
 ## Project Structure
 
 ```
