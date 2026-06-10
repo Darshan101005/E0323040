@@ -50,8 +50,12 @@ function NavContent({ darkMode, toggleDarkMode, mobileOpen, setMobileOpen }) {
             >
               <ListItemIcon sx={{ minWidth: 32, color: 'text.secondary' }}>{item.icon}</ListItemIcon>
               <ListItemText
-                primary={item.label}
-                primaryTypographyProps={{ fontSize: '0.8125rem', fontWeight: location.pathname === item.path ? 500 : 400 }}
+                disableTypography
+                primary={
+                  <Typography sx={{ fontSize: '0.8125rem', fontWeight: location.pathname === item.path ? 500 : 400 }}>
+                    {item.label}
+                  </Typography>
+                }
               />
             </ListItemButton>
           </ListItem>
@@ -80,7 +84,10 @@ function NavContent({ darkMode, toggleDarkMode, mobileOpen, setMobileOpen }) {
           {isMobile && (
             <IconButton
               edge="start"
-              onClick={() => setMobileOpen(true)}
+              onClick={(e) => {
+                if (e.currentTarget) e.currentTarget.blur();
+                setMobileOpen(true);
+              }}
               sx={{ mr: 1, color: 'text.secondary' }}
               size="small"
             >

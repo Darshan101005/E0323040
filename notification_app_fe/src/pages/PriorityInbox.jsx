@@ -123,7 +123,7 @@ export default function PriorityInbox() {
                 onChange={handleTopNChange}
                 size="small"
                 type="number"
-                inputProps={{ min: 1, max: 50, style: { textAlign: 'center', width: 36, padding: '6px 8px', fontSize: '0.8125rem' } }}
+                slotProps={{ htmlInput: { min: 1, max: 50, style: { textAlign: 'center', width: 36, padding: '6px 8px', fontSize: '0.8125rem' } } }}
                 sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1.5 } }}
               />
             </Box>
